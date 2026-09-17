@@ -18,13 +18,13 @@ public class ShowService {
 	
 	private final TvMazeClient tvMazeClient;
 	
-	private final ShowCacheRepository showCacheRespository;
+	private final ShowCacheRepository showCacheRepository;
 	
 	private final CommentRepository commentRepository;
 	
 	public ShowService(TvMazeClient tvMazeClient , ShowCacheRepository showCacheRepository,CommentRepository commentRepository) {
 		this.tvMazeClient = tvMazeClient;
-		this.showCacheRespository = showCacheRepository;
+		this.showCacheRepository = showCacheRepository;
 		this.commentRepository = commentRepository;
 	}
 	
@@ -71,25 +71,44 @@ public class ShowService {
 	
 	
 	public Map <String,Object> getShow(Long showId){
-		return showCacheRespository
-				.findById(showId)
-				.map(ShowCacheDocument::getData)
-				.orElseGet(() -> {
-					
-					Map<String,Object> show =
-							tvMazeClient.getShow(showId);
-					
-					ShowCacheDocument document= 
-							new ShowCacheDocument(
-									showId,
-									show
-									);
-					
-					showCacheRespository.save(document);
-					
-					return show;
-							
-				});
-	}
+		
+	    Map<String, Object> show =
+	    		showCacheRepository
+	                .findById(showId)
+	                .map(ShowCacheDocument::getData)
+	                .orElseGet(() -> {
+
+	                        Map<String, Object> apiShow =
+	                        tvMazeClient.getShow(showId);
+
+	                        ShowCacheDocument document =
+	                                new ShowCacheDocument(
+	                                    showId,
+	                                    apiShow
+	                                );
+
+	                        showCacheRepository.save(document);
+
+	                        return apiShow;
+	                    });
+	    Map<String, Object> response =
+	            new java.util.LinkedHashMap<>(show);
+	    List<CommentResponseDTO> comments =
+	            commentRepository
+	                    .findByShowIdOrderByCreatedAtAsc(showId)
+	                    .stream()
+	                    .map(comment ->
+	                            new CommentResponseDTO(
+	                                    comment.getComment(),
+	                                    comment.getRating()
+	                            )
+	                    )
+	                    .toList();
+
+	    response.put("comments", comments);
+
+	    return response;
+
+}
 
 }
