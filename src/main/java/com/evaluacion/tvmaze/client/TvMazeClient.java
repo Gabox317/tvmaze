@@ -2,7 +2,9 @@ package com.evaluacion.tvmaze.client;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
@@ -32,5 +34,15 @@ public class TvMazeClient {
 			return List.of();
 		}
 		return Arrays.asList(response);
+	}
+	
+	public Map<String, Object> getShow(Long showId){
+		
+		return restClient
+				.get()
+				.uri("/shows/{id}",showId)
+				.retrieve()
+				.body(new ParameterizedTypeReference<Map<String,Object>>() {
+				});
 	}
 }

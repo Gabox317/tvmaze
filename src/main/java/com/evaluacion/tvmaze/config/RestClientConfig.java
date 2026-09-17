@@ -17,7 +17,7 @@ public class RestClientConfig {
 	@Bean
 	public RestClient tvMazeRestClient(
 			RestClient.Builder builder,
-			@Value("${tvmaze.base-url}") String baseUrl) {
+			@Value("${tvmaze.url}") String baseUrl) {
 		
 		return builder
 				.baseUrl(baseUrl)
