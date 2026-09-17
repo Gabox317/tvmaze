@@ -28,11 +28,11 @@ public class ShowService {
 					String channel = null;
 					if(show.network() != null) {
 						channel = show.network().name();
-					} else if (show.webChannel() != null) {
-						channel = show.webChannel().name();
+					} else if (show.webchannel() != null) {
+						channel = show.webchannel().name();
 					}
 					
-					return new SearchShowResponse(
+					return new SearchShowResponseDTO(
 							show.id(),
 							show.name(),
 							channel,
