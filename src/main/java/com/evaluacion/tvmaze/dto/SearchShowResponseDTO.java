@@ -7,6 +7,8 @@ public record SearchShowResponseDTO(
 		String name,
 		String channel,
 		String summary,
-		List<String> genres){
+		List<String> genres,
+		List<CommentResponseDTO> comments
+		){
 
 }

@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 
 import com.evaluacion.tvmaze.client.TvMazeClient;
 import com.evaluacion.tvmaze.document.ShowCacheDocument;
+import com.evaluacion.tvmaze.dto.CommentResponseDTO;
 import com.evaluacion.tvmaze.dto.SearchShowResponseDTO;
 import com.evaluacion.tvmaze.dto.TvMazeShowDTO;
+import com.evaluacion.tvmaze.repository.CommentRepository;
 import com.evaluacion.tvmaze.repository.ShowCacheRepository;
 
 @Service
@@ -18,9 +20,12 @@ public class ShowService {
 	
 	private final ShowCacheRepository showCacheRespository;
 	
-	public ShowService(TvMazeClient tvMazeClient , ShowCacheRepository showCacheRepository) {
+	private final CommentRepository commentRepository;
+	
+	public ShowService(TvMazeClient tvMazeClient , ShowCacheRepository showCacheRepository,CommentRepository commentRepository) {
 		this.tvMazeClient = tvMazeClient;
 		this.showCacheRespository = showCacheRepository;
+		this.commentRepository = commentRepository;
 	}
 	
 	public List<SearchShowResponseDTO> search(String query){
@@ -38,12 +43,25 @@ public class ShowService {
 						channel = show.webchannel().name();
 					}
 					
+					List<CommentResponseDTO> comments =
+							commentRepository
+							.findByShowIdOrderByCreatedAtAsc(show.id())
+							.stream()
+							.map(comment ->
+							new CommentResponseDTO(
+									comment.getComment(),
+									comment.getRating()
+									)
+							
+							) .toList();
+					
 					return new SearchShowResponseDTO(
 							show.id(),
 							show.name(),
 							channel,
 							show.summary(),
-							show.genres()
+							show.genres(),
+							comments
 							);
 							
 				})
