@@ -13,15 +13,11 @@ import org.springframework.web.client.RestClient;
  */
 @Configuration
 public class RestClientConfig {
-	
+
 	@Bean
-	public RestClient tvMazeRestClient(
-			RestClient.Builder builder,
-			@Value("${tvmaze.url}") String baseUrl) {
-		
-		return builder
-				.baseUrl(baseUrl)
-				.build();
+	public RestClient tvMazeRestClient(RestClient.Builder builder, @Value("${tvmaze.url}") String baseUrl) {
+
+		return builder.baseUrl(baseUrl).build();
 	}
 
 }

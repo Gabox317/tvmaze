@@ -17,22 +17,17 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/comments")
 public class CommentsController {
 
-	
 	private final CommentService commentService;
-	
+
 	public CommentsController(CommentService commentService) {
-		this.commentService=commentService;
-	}
-	
-	@PostMapping
-	public ResponseEntity<StatusResponseDTO> savecomment(
-			@Valid @RequestBody CommentRequestDTO request){
-		commentService.save(request);
-		
-		return ResponseEntity
-				.status(HttpStatus.CREATED)
-				.body(new StatusResponseDTO ("succes"));
+		this.commentService = commentService;
 	}
 
-	
+	@PostMapping
+	public ResponseEntity<StatusResponseDTO> savecomment(@Valid @RequestBody CommentRequestDTO request) {
+		commentService.save(request);
+
+		return ResponseEntity.status(HttpStatus.CREATED).body(new StatusResponseDTO("succes"));
+	}
+
 }

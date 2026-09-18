@@ -11,23 +11,17 @@ import com.evaluacion.tvmaze.repository.CommentRepository;
 @Service
 public class CommentService {
 
-	private final CommentRepository  commentRepository;
-	
+	private final CommentRepository commentRepository;
+
 	public CommentService(CommentRepository commentRepository) {
-		this.commentRepository=commentRepository;
+		this.commentRepository = commentRepository;
 	}
-	
-	public void save (CommentRequestDTO request) {
-		
-		CommentDocument comment =
-				new CommentDocument(
-						request.showId(),
-						request.comment(),
-						request.rating(),
-						Instant.now()
-						);
-		
+
+	public void save(CommentRequestDTO request) {
+
+		CommentDocument comment = new CommentDocument(request.showId(), request.comment(), request.rating(),
+				Instant.now());
+
 		commentRepository.save(comment);
 	}
 }
-
