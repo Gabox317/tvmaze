@@ -1,7 +1,6 @@
 package com.evaluacion.tvmaze.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,30 +9,28 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.evaluacion.tvmaze.dto.SearchShowResponseDTO;
+import com.evaluacion.tvmaze.dto.ShowDetailDTO;
 import com.evaluacion.tvmaze.service.ShowService;
 
 @RestController
 @RequestMapping("/api")
 public class ShowController {
-	
+
 	private final ShowService showService;
-	
+
 	public ShowController(ShowService showService) {
 		this.showService = showService;
 	}
-	
+
 	@GetMapping("/search")
-	public List<SearchShowResponseDTO> search(
-			@RequestParam("search_query") String searchQuery){
-		
+	public List<SearchShowResponseDTO> search(@RequestParam("search_query") String searchQuery) {
+
 		return showService.search(searchQuery);
 	}
-	
 
 	@GetMapping("/show/{showId}")
-	public Map<String, Object> getShow(
-			@PathVariable Long showId){
+	public ShowDetailDTO getShow(@PathVariable Long showId) {
 		return showService.getShow(showId);
 	}
-	
+
 }

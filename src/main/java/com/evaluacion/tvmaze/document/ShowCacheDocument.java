@@ -1,41 +1,41 @@
 package com.evaluacion.tvmaze.document;
 
-import java.util.Map;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.evaluacion.tvmaze.dto.ShowDetailDTO;
+
 @Document(collection = "shows_cache")
 public class ShowCacheDocument {
-	
+
 	@Id
 	private Long id;
-	
-	private Map<String,Object> data;
-	
+
+	private ShowDetailDTO data;
+
 	public ShowCacheDocument() {
 	}
-	
-	public ShowCacheDocument(Long id, Map<String, Object> data) {
-		this.id=id;
-		this.data=data;
+
+	public ShowCacheDocument(Long id, ShowDetailDTO data) {
+
+		this.id = id;
+		this.data = data;
 	}
-		
 
 	public Long getId() {
 		return id;
 	}
-	
-    public void setId(Long id) {
-        this.id = id;
-    }
-    
-    public Map<String, Object> getData(){
-    	return data;
-    }
-    
-    public void setData(Map<String,Object> data) {
-    	this.data=data;
-    }
-    
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public ShowDetailDTO getData() {
+		return data;
+	}
+
+	public void setData(ShowDetailDTO data) {
+		this.data = data;
+	}
 }

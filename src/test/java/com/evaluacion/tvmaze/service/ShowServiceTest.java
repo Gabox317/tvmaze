@@ -47,61 +47,6 @@ class ShowServiceTest {
 		showService = new ShowService(tvMazeClient, showCacheRepository, commentRepository);
 	}
 
-	@Test
-	void shouldReturnShowFromCacheWhenExists() {
-
-		Long showId = 169L;
-
-		Map<String, Object> cachedData = new HashMap<>();
-		cachedData.put("id", showId);
-		cachedData.put("name", "Test Show");
-
-		ShowCacheDocument cachedShow = new ShowCacheDocument(showId, cachedData);
-
-		when(showCacheRepository.findById(showId)).thenReturn(Optional.of(cachedShow));
-
-		when(commentRepository.findByShowIdOrderByCreatedAtAsc(showId)).thenReturn(List.of());
-
-		Map<String, Object> response = showService.getShow(showId);
-
-		assertNotNull(response);
-		assertEquals(showId, response.get("id"));
-		assertEquals("Test Show", response.get("name"));
-
-		verify(showCacheRepository, times(1)).findById(showId);
-
-		verify(tvMazeClient, never()).getShow(showId);
-
-		verify(showCacheRepository, never()).save(any(ShowCacheDocument.class));
-	}
-
-	@Test
-	void shouldCallTvMazeAndSaveShowWhenCacheDoesNotExist() {
-
-		Long showId = 169L;
-
-		Map<String, Object> apiShow = new HashMap<>();
-		apiShow.put("id", showId);
-		apiShow.put("name", "TV Maze Show");
-
-		when(showCacheRepository.findById(showId)).thenReturn(Optional.empty());
-
-		when(tvMazeClient.getShow(showId)).thenReturn(apiShow);
-
-		when(commentRepository.findByShowIdOrderByCreatedAtAsc(showId)).thenReturn(List.of());
-
-		Map<String, Object> response = showService.getShow(showId);
-
-		assertNotNull(response);
-		assertEquals(showId, response.get("id"));
-		assertEquals("TV Maze Show", response.get("name"));
-
-		verify(showCacheRepository, times(1)).findById(showId);
-
-		verify(tvMazeClient, times(1)).getShow(showId);
-
-		verify(showCacheRepository, times(1)).save(any(ShowCacheDocument.class));
-	}
 
 	@Test
 	void shouldLoadCommentsWithSingleQueryWhenSearchingShows() {

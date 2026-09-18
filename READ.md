@@ -19,9 +19,6 @@ mvn clean spring-boot:run
 
 Se entrega coleccion de las peticiones en postman en la carpeta de entrega.
 
-Para conectarse a MongoDB se utiliza la variable de entorno:
-
-Por motivos de agilidad para la prueba se comparte la URI de mongo directa en el properties , sin embargo , se planeo con una variable que se daba de alta en el sistema para no tener urls y contraseñas en codigo
-
+Se entrega con una carpeta de git_history donde se encuentra todo el historial de .git
 ```bash
 MONGODB_URI
