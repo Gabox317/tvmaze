@@ -31,7 +31,7 @@ public class CommentsController {
 		
 		return ResponseEntity
 				.status(HttpStatus.CREATED)
-				.body(new StatusResponseDTO ("success"));
+				.body(new StatusResponseDTO ("succes"));
 	}
 
 	
