@@ -10,5 +10,7 @@ import com.evaluacion.tvmaze.document.CommentDocument;
 public interface CommentRepository extends MongoRepository<CommentDocument, String> {
 
 	List<CommentDocument>  findByShowIdOrderByCreatedAtAsc(Long showId);
+	
+	List<CommentDocument> findByShowIdIn(List<Long> showIds);
 
 }
